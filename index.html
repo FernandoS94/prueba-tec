@@ -29,13 +29,20 @@
     <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
+
+    <!-- Menú del hamburguesa (solo mobile/tablet): únicamente Agenda, Mapa y Premios PIT -->
+    <nav class="main-nav mobile-nav" id="mainNav" aria-label="Menú principal">
+      <a href="AGENDA_PDF_PENDIENTE.pdf" target="_blank" rel="noopener">Agenda</a>
+      <a href="#mapa">Mapa</a>
+      <a href="#pit">Premios PIT</a>
+    </nav>
   </div>
 </header>
 
 <!-- ===== BANNER PRINCIPAL ===== -->
 <section class="hero" id="top">
   <div class="container">
-    <nav class="main-nav chip-nav hero-chip-nav" id="mainNav">
+    <nav class="chip-nav hero-chip-nav" id="heroChipNav" aria-label="Secciones del evento">
       <a href="#charlas-tec" class="nav-chip nav-chip-verde">Charlas TEC</a>
       <a href="#foro-tec" class="nav-chip nav-chip-violeta">Foro TEC</a>
       <a href="#inteligencia-creativa" class="nav-chip nav-chip-turquesa">Inteligencia Creativa</a>
@@ -320,6 +327,11 @@
           <span class="pit-stat-number">10</span>
           <span class="pit-stat-label">proyectos<br>en competencia</span>
         </div>
+        <!--
+          Para habilitar la votación cuando tengas el link:
+          reemplazá este <button disabled> por un <a href="TU_LINK_DE_VOTACION" target="_blank" rel="noopener" class="pit-vote-btn">
+          (ver instrucciones completas en el chat).
+        -->
         <button class="pit-vote-btn" disabled title="El link de votación se habilita más adelante">
           Votar ahora <span>&rarr;</span>
         </button>
@@ -479,9 +491,6 @@
 <!-- ===== FOOTER ===== -->
 <footer class="site-footer">
   <div class="container footer-inner">
-    <div class="footer-logo">
-      <img src="assets/logo-mark.png" alt="Tecweek ED Buenos Aires" class="logo-img">
-    </div>
     <p class="footer-note"><em>.</em></p>
   </div>
 </footer>
