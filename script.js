@@ -26,6 +26,24 @@ document.querySelectorAll('.accordion-trigger').forEach((btn) => {
 // 30 de octubre de 2026, 8:00 h, horario de Buenos Aires (UTC-3)
 const EVENT_DATE = new Date('2026-10-30T08:00:00-03:00');
 
+// Guarda el último valor mostrado de cada unidad para saber cuándo animarla
+const lastCountdownValues = { days: null, hours: null, minutes: null, seconds: null };
+
+function setCountdownField(id, value, key) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  el.textContent = value;
+
+  if (lastCountdownValues[key] !== null && lastCountdownValues[key] !== value) {
+    // Reinicia la animación aunque el valor cambie dos veces seguidas rápido
+    el.classList.remove('is-tick');
+    void el.offsetWidth; // fuerza reflow
+    el.classList.add('is-tick');
+  }
+  lastCountdownValues[key] = value;
+}
+
 function updateCountdown() {
   const el = document.getElementById('countdown');
   if (!el) return;
@@ -35,10 +53,10 @@ function updateCountdown() {
 
   if (diff <= 0) {
     el.classList.add('is-finished');
-    document.getElementById('cd-days').textContent = '00';
-    document.getElementById('cd-hours').textContent = '00';
-    document.getElementById('cd-minutes').textContent = '00';
-    document.getElementById('cd-seconds').textContent = '00';
+    setCountdownField('cd-days', '00', 'days');
+    setCountdownField('cd-hours', '00', 'hours');
+    setCountdownField('cd-minutes', '00', 'minutes');
+    setCountdownField('cd-seconds', '00', 'seconds');
     return;
   }
 
@@ -49,14 +67,31 @@ function updateCountdown() {
 
   const pad = (n) => String(n).padStart(2, '0');
 
-  document.getElementById('cd-days').textContent = pad(days);
-  document.getElementById('cd-hours').textContent = pad(hours);
-  document.getElementById('cd-minutes').textContent = pad(minutes);
-  document.getElementById('cd-seconds').textContent = pad(seconds);
+  setCountdownField('cd-days', pad(days), 'days');
+  setCountdownField('cd-hours', pad(hours), 'hours');
+  setCountdownField('cd-minutes', pad(minutes), 'minutes');
+  setCountdownField('cd-seconds', pad(seconds), 'seconds');
 }
 
 updateCountdown();
 setInterval(updateCountdown, 1000);
+
+// ===== Cinco experiencias: tarjetas con flip =====
+document.querySelectorAll('.exp-visual').forEach((card) => {
+  const toggle = () => {
+    const isFlipped = card.classList.toggle('is-flipped');
+    card.setAttribute('aria-pressed', String(isFlipped));
+  };
+
+  card.addEventListener('click', toggle);
+
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+      e.preventDefault();
+      toggle();
+    }
+  });
+});
 
 // ===== Menú mobile =====
 const navToggle = document.getElementById('navToggle');

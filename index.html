@@ -30,6 +30,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
+<!-- Google Analytics (GA4) -->
+<!-- Reemplazá G-XXXXXXXXXX por tu Measurement ID real (lo sacás en analytics.google.com) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
 <!-- Datos estructurados: ayuda a Google a entender que es un evento (fecha, lugar, etc.) -->
 <script type="application/ld+json">
 {
@@ -157,25 +167,29 @@
 
   <div class="container">
     <div class="countdown" id="countdown" aria-live="polite">
-      <div class="countdown-item">
-        <span class="countdown-number" id="cd-days">00</span>
-        <span class="countdown-label">Días</span>
+      <p class="countdown-kicker">Faltan</p>
+      <div class="countdown-grid">
+        <div class="countdown-item">
+          <span class="countdown-number" id="cd-days">00</span>
+          <span class="countdown-label">Días</span>
+        </div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-item">
+          <span class="countdown-number" id="cd-hours">00</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-item">
+          <span class="countdown-number" id="cd-minutes">00</span>
+          <span class="countdown-label">Minutos</span>
+        </div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-item">
+          <span class="countdown-number" id="cd-seconds">00</span>
+          <span class="countdown-label">Segundos</span>
+        </div>
       </div>
-      <span class="countdown-sep">:</span>
-      <div class="countdown-item">
-        <span class="countdown-number" id="cd-hours">00</span>
-        <span class="countdown-label">Horas</span>
-      </div>
-      <span class="countdown-sep">:</span>
-      <div class="countdown-item">
-        <span class="countdown-number" id="cd-minutes">00</span>
-        <span class="countdown-label">Minutos</span>
-      </div>
-      <span class="countdown-sep">:</span>
-      <div class="countdown-item">
-        <span class="countdown-number" id="cd-seconds">00</span>
-        <span class="countdown-label">Segundos</span>
-      </div>
+      <p class="countdown-note">Nos encontramos el 30 de octubre en la Usina del Arte.</p>
     </div>
   </div>
 
@@ -209,83 +223,150 @@
 <!-- ===== CINCO EXPERIENCIAS ===== -->
 <section class="section experiencias" id="espacios">
   <div class="container">
-    
+
     <h2>Cinco experiencias, un mismo día</h2>
     <p class="section-intro">
       Elegí cómo recorrer la jornada: charlas, talleres y espacios para visitar,
       aprender e interactuar.
     </p>
 
-    <div class="cards-grid">
-      <article class="card card-verde" id="charlas-tec">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4"/></svg>
+    <div class="exp-list">
+
+      <article class="exp-row exp-verde" id="charlas-tec">
+        <div class="exp-visual" role="button" tabindex="0" aria-pressed="false" aria-label="Ver qué incluye Charlas TEC">
+          <div class="exp-flip">
+            <div class="exp-flip-face exp-flip-front">
+              <div class="exp-visual-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4"/></svg>
+              </div>
+              <span class="exp-flip-hint"><i class="exp-flip-hint-icon"></i>Tocá para ver qué incluye</span>
+            </div>
+            <div class="exp-flip-face exp-flip-back">
+              <span class="exp-flip-eyebrow">Qué incluye</span>
+              <ul>
+                <li>Charlas</li>
+                <li>Paneles de referentes</li>
+                <li>Espacios para aprender</li>
+              </ul>
+              <span class="exp-flip-hint">Volver</span>
+            </div>
+          </div>
         </div>
-        <span class="card-number">01</span>
-        <h3>Charlas TEC</h3>
-        <p>Grandes voces de la educación y la tecnología en el escenario principal.</p>
-        <ul>
-          <li>Charlas </li>
-          <li>Paneles de referentes</li>
-          <li>Espacios para aprender</li>
-        </ul>
+        <div class="exp-copy">
+          <span class="exp-index">01</span>
+          <h3 class="exp-title">Charlas<br>TEC</h3>
+          <p class="exp-tagline">Grandes voces de la educación y la tecnología en el escenario principal.</p>
+        </div>
       </article>
 
-      <article class="card card-violeta" id="foro-tec">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M2 20c0-3.3 3-6 7-6s7 2.7 7 6"/><circle cx="17" cy="8" r="2.6"/><path d="M16 14.2c2.8.4 5 2.6 5 5.8"/></svg>
+      <article class="exp-row exp-violeta" id="foro-tec">
+        <div class="exp-visual" role="button" tabindex="0" aria-pressed="false" aria-label="Ver qué incluye Foro TEC">
+          <div class="exp-flip">
+            <div class="exp-flip-face exp-flip-front">
+              <div class="exp-visual-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M2 20c0-3.3 3-6 7-6s7 2.7 7 6"/><circle cx="17" cy="8" r="2.6"/><path d="M16 14.2c2.8.4 5 2.6 5 5.8"/></svg>
+              </div>
+              <span class="exp-flip-hint"><i class="exp-flip-hint-icon"></i>Tocá para ver qué incluye</span>
+            </div>
+            <div class="exp-flip-face exp-flip-back">
+              <span class="exp-flip-eyebrow">Qué incluye</span>
+              <ul>
+                <li>Mesas de discusión</li>
+                <li>Talleres colaborativos</li>
+                <li>Espacios para interactuar</li>
+              </ul>
+              <span class="exp-flip-hint">Volver</span>
+            </div>
+          </div>
         </div>
-        <span class="card-number">02</span>
-        <h3>Foro TEC</h3>
-        <p>Debate abierto entre docentes, líderes, startups y gobierno.</p>
-        <ul>
-          <li>Mesas de discusión</li>
-          <li>Talleres colaborativos</li>
-          <li>Espacios para interactuar</li>
-        </ul>
+        <div class="exp-copy">
+          <span class="exp-index">02</span>
+          <h3 class="exp-title">Foro<br>TEC</h3>
+          <p class="exp-tagline">Debate abierto entre docentes, líderes, startups y gobierno.</p>
+        </div>
       </article>
 
-      <article class="card card-turquesa" id="inteligencia-creativa">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v.01M8.5 12.5a1.5 1.5 0 1 0 0-3M15.5 15.5a1.5 1.5 0 1 0 0-3"/></svg>
+      <article class="exp-row exp-turquesa" id="inteligencia-creativa">
+        <div class="exp-visual" role="button" tabindex="0" aria-pressed="false" aria-label="Ver qué incluye Inteligencia Creativa">
+          <div class="exp-flip">
+            <div class="exp-flip-face exp-flip-front">
+              <div class="exp-visual-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v.01M8.5 12.5a1.5 1.5 0 1 0 0-3M15.5 15.5a1.5 1.5 0 1 0 0-3"/></svg>
+              </div>
+              <span class="exp-flip-hint"><i class="exp-flip-hint-icon"></i>Tocá para ver qué incluye</span>
+            </div>
+            <div class="exp-flip-face exp-flip-back">
+              <span class="exp-flip-eyebrow">Qué incluye</span>
+              <ul>
+                <li>Espacio Maker · Robot BA</li>
+                <li>Lab Lúdico · Lab Arte</li>
+                <li>Espacios para visitar</li>
+              </ul>
+              <span class="exp-flip-hint">Volver</span>
+            </div>
+          </div>
         </div>
-        <span class="card-number">03</span>
-        <h3>Inteligencia Creativa</h3>
-        <p>Arte, diseño y creatividad potenciados por la tecnología.</p>
-        <ul>
-          <li>Espacio Maker · Robot BA</li>
-          <li>Lab Lúdico · Lab Arte</li>
-          <li>Espacios para visitar</li>
-        </ul>
+        <div class="exp-copy">
+          <span class="exp-index">03</span>
+          <h3 class="exp-title">Inteligencia<br>Creativa</h3>
+          <p class="exp-tagline">Arte, diseño y creatividad potenciados por la tecnología.</p>
+        </div>
       </article>
 
-      <article class="card card-naranja" id="inteligencia-aplicada">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9zM3 9h2M3 15h2M19 9h2M19 15h2M9 3v2M15 3v2M9 19v2M15 19v2"/></svg>
+      <article class="exp-row exp-naranja" id="inteligencia-aplicada">
+        <div class="exp-visual" role="button" tabindex="0" aria-pressed="false" aria-label="Ver qué incluye Inteligencia Aplicada">
+          <div class="exp-flip">
+            <div class="exp-flip-face exp-flip-front">
+              <div class="exp-visual-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9zM3 9h2M3 15h2M19 9h2M19 15h2M9 3v2M15 3v2M9 19v2M15 19v2"/></svg>
+              </div>
+              <span class="exp-flip-hint"><i class="exp-flip-hint-icon"></i>Tocá para ver qué incluye</span>
+            </div>
+            <div class="exp-flip-face exp-flip-back">
+              <span class="exp-flip-eyebrow">Qué incluye</span>
+              <ul>
+                <li>Asistente IA</li>
+                <li>Premios a la Innovación Tecnológica (PIT)</li>
+                <li>Espacio Escuela Estación BA</li>
+              </ul>
+              <span class="exp-flip-hint">Volver</span>
+            </div>
+          </div>
         </div>
-        <span class="card-number">04</span>
-        <h3>Inteligencia Aplicada</h3>
-        <p>IA y herramientas digitales al servicio del aula, hoy.</p>
-        <ul>
-          <li>Asistente IA</li>
-          <li>Premios a la Innovación Tecnológica (PIT)</li>
-          <li>Espacio Escuela Estación BA</li>
-        </ul>
+        <div class="exp-copy">
+          <span class="exp-index">04</span>
+          <h3 class="exp-title">Inteligencia<br>Aplicada</h3>
+          <p class="exp-tagline">IA y herramientas digitales al servicio del aula, hoy.</p>
+        </div>
       </article>
 
-      <article class="card card-rosa" id="inteligencia-expandida">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="4.2" ry="10" transform="rotate(45 12 12)"/></svg>
+      <article class="exp-row exp-rosa" id="inteligencia-expandida">
+        <div class="exp-visual" role="button" tabindex="0" aria-pressed="false" aria-label="Ver qué incluye Inteligencia Expandida">
+          <div class="exp-flip">
+            <div class="exp-flip-face exp-flip-front">
+              <div class="exp-visual-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="4.2" ry="10" transform="rotate(45 12 12)"/></svg>
+              </div>
+              <span class="exp-flip-hint"><i class="exp-flip-hint-icon"></i>Tocá para ver qué incluye</span>
+            </div>
+            <div class="exp-flip-face exp-flip-back">
+              <span class="exp-flip-eyebrow">Qué incluye</span>
+              <ul>
+                <li>Sala TEC 1</li>
+                <li>Sala TEC 2</li>
+                <li>Espacios formativos</li>
+              </ul>
+              <span class="exp-flip-hint">Volver</span>
+            </div>
+          </div>
         </div>
-        <span class="card-number">05</span>
-        <h3>Inteligencia Expandida</h3>
-        <p>Tecnologías para ampliar las formas de aprender y construir conocimiento.</p>
-        <ul>
-          <li>Sala TEC 1</li>
-          <li>Sala TEC 2</li>
-          <li>Espacios formativos</li>
-        </ul>
+        <div class="exp-copy">
+          <span class="exp-index">05</span>
+          <h3 class="exp-title">Inteligencia<br>Expandida</h3>
+          <p class="exp-tagline">Tecnologías para ampliar las formas de aprender y construir conocimiento.</p>
+        </div>
       </article>
+
     </div>
   </div>
 </section>
