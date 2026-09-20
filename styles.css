@@ -262,7 +262,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   grid-template-columns: 1.05fr 0.95fr;
   gap: 54px;
   align-items: center;
-  padding: 0 24px 20px;
+  padding: 0 24px 0px;
 }
 
 .hero-eyebrow {
@@ -436,7 +436,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: 30px 20px 26px;
+  padding: 30px 20px 2px;
   border-radius: 18px;
   background: linear-gradient(90deg, #4A5FD9 0%, #7C6FE8 35%, #B85FD9 68%, #E8508C 100%);
   margin-bottom: 54px;
