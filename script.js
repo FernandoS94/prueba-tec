@@ -77,13 +77,25 @@ updateCountdown();
 setInterval(updateCountdown, 1000);
 
 // ===== Carrusel Premium TECWeek =====
+// Bucle continuo: después de la última tarjeta vuelve a pasar la primera, siempre hacia adelante.
+// Truco: se agrega al final una copia de la primera tarjeta. Al pasar de la última, el carrusel se
+// desliza hasta esa copia y, cuando llega, se reubica en la primera real sin animación (no se nota).
 
 (() => {
 
   const track = document.getElementById('expTrack');
   if (!track) return;
 
-  const slides = Array.from(track.children);
+  const slides = Array.from(track.children);          // las tarjetas reales
+  const total = slides.length;
+
+  const clone = slides[0].cloneNode(true);            // copia de la primera, sólo visual
+  clone.classList.add('is-clone');
+  clone.setAttribute('aria-hidden', 'true');
+  clone.setAttribute('inert', '');
+  track.appendChild(clone);
+  const all = [...slides, clone];
+
   const dots = Array.from(document.querySelectorAll('[data-exp-dot]'));
 
   const prevBtn = document.querySelector('[data-exp-prev]');
@@ -94,6 +106,11 @@ setInterval(updateCountdown, 1000);
 
   let current = 0;
   let autoplay;
+  let looping = false;       // true mientras se desliza hacia la copia
+  let loopPoll;
+
+  // Si la persona pidió "reducir movimiento" en su sistema: sin autoplay y sin desplazamiento animado
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   const fondos = [
     '#EEF7E9',
@@ -103,10 +120,10 @@ setInterval(updateCountdown, 1000);
     '#FCEEF5'
   ];
 
-  function updateUI(index){
+  function updateUI(index, onClone = false){
 
-    slides.forEach((slide,i)=>{
-      slide.classList.toggle('is-active',i===index);
+    all.forEach((slide,i)=>{
+      slide.classList.toggle('is-active', i===index || (i===total && onClone));
     });
 
     dots.forEach((dot,i)=>{
@@ -117,7 +134,7 @@ setInterval(updateCountdown, 1000);
 
     if(progress){
       progress.style.width =
-        `${((index+1)/slides.length)*100}%`;
+        `${((index+1)/total)*100}%`;
     }
 
     section.style.background =
@@ -126,20 +143,103 @@ setInterval(updateCountdown, 1000);
 
   // Posición que deja al slide centrado dentro del track (usa medidas reales, no estimaciones)
   function centerLeft(i){
-    const slide = slides[i];
+    const slide = all[i];
     return slide.offsetLeft - (track.clientWidth - slide.offsetWidth) / 2;
+  }
+
+  // Salto instantáneo (sin animación ni "imán" del scroll-snap)
+  function instantScroll(left){
+    track.style.scrollBehavior = 'auto';
+    track.style.scrollSnapType = 'none';
+    track.scrollLeft = left;
+    void track.offsetWidth;                 // fuerza el reflow antes de restaurar
+    track.style.scrollSnapType = '';
+    track.style.scrollBehavior = '';
+  }
+
+  function cancelLoop(){
+    clearInterval(loopPoll);
+    looping = false;
+  }
+
+  // Espera a que el desplazamiento animado llegue a destino y se detenga
+  function whenScrollArrives(target, done){
+    let last = track.scrollLeft;
+    let still = 0;
+    let waited = 0;
+    clearInterval(loopPoll);
+    loopPoll = setInterval(()=>{
+      waited += 60;
+      const x = track.scrollLeft;
+      still = Math.abs(x - last) < 0.5 ? still + 1 : 0;
+      last = x;
+      if ((Math.abs(x - target) < 6 && still >= 2) || waited > 2500){
+        clearInterval(loopPoll);
+        done();
+      }
+    }, 60);
+  }
+
+  // Lleva una tarjeta a su estado de reposo sin animación (foto sin zoom, texto oculto).
+  // Así la primera real y su copia arrancan exactamente igual y el reemplazo no se nota.
+  function resetSlideState(slide){
+    const els = [
+      slide,
+      slide.querySelector('.exp-slide-photo'),
+      ...slide.querySelectorAll('.exp-slide-copy > *')
+    ].filter(Boolean);
+    els.forEach(el => { el.style.transition = 'none'; });
+    void slide.offsetWidth;                 // fuerza el reflow con las transiciones apagadas
+    els.forEach(el => { el.style.transition = ''; });
+  }
+
+  // Ya está sobre la copia: reubicar en la primera real (idéntica, no se nota)
+  function landOnFirst(){
+    looping = false;
+    current = 0;
+    instantScroll(centerLeft(0));
+    updateUI(0);
   }
 
   function goTo(index,behavior='smooth'){
 
-    current =
-      (index + slides.length) %
-      slides.length;
+    cancelLoop();
 
-    track.scrollTo({
-      left: centerLeft(current),
-      behavior
-    });
+    const animated = !reduceMotion.matches && behavior === 'smooth';
+
+    // Adelante desde la última → la primera entra por la derecha (vía la copia)
+    if (index >= total){
+      if (!animated){
+        current = 0;
+        instantScroll(centerLeft(0));
+        updateUI(0);
+        return;
+      }
+      current = 0;
+      looping = true;
+      const target = centerLeft(total);
+      resetSlideState(slides[0]);
+      track.scrollTo({ left: target, behavior: 'smooth' });
+      updateUI(0, true);
+      whenScrollArrives(target, landOnFirst);
+      return;
+    }
+
+    // Atrás desde la primera → salta directo a la última
+    if (index < 0){
+      current = total - 1;
+      instantScroll(centerLeft(current));
+      updateUI(current);
+      return;
+    }
+
+    current = index;
+
+    if (animated){
+      track.scrollTo({ left: centerLeft(current), behavior: 'smooth' });
+    } else {
+      instantScroll(centerLeft(current));
+    }
 
     updateUI(current);
   }
@@ -183,17 +283,25 @@ setInterval(updateCountdown, 1000);
 
     scrollTimeout = setTimeout(()=>{
 
+      if (looping) return;      // el bucle automático se encarga solo
+
       // Slide cuyo centro queda más cerca del centro visible del track
       const viewCenter = track.scrollLeft + track.clientWidth / 2;
       let nearest = 0;
       let best = Infinity;
 
-      slides.forEach((slide,i)=>{
+      all.forEach((slide,i)=>{
         const d = Math.abs(
           slide.offsetLeft + slide.offsetWidth / 2 - viewCenter
         );
         if (d < best) { best = d; nearest = i; }
       });
+
+      // Si la persona deslizó a mano hasta la copia, se reubica en la primera real
+      if (nearest === total){
+        landOnFirst();
+        return;
+      }
 
       current = nearest;
       updateUI(current);
@@ -203,6 +311,10 @@ setInterval(updateCountdown, 1000);
   });
 
   function startAutoplay(){
+
+    // No arrancar si se pidió reducir movimiento; y evitar intervalos duplicados
+    if (reduceMotion.matches) return;
+    clearInterval(autoplay);
 
     autoplay = setInterval(()=>{
       goTo(current + 1);
@@ -228,6 +340,11 @@ setInterval(updateCountdown, 1000);
     'resize',
     ()=>goTo(current,'auto')
   );
+
+  // Si la persona cambia la preferencia del sistema con la página abierta
+  reduceMotion.addEventListener('change', ()=>{
+    reduceMotion.matches ? stopAutoplay() : startAutoplay();
+  });
 
   updateUI(0);
   startAutoplay();
