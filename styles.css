@@ -356,7 +356,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   display: block;
   height: auto;
   width: clamp(260px, 36vw, 480px);
-  margin: 0 0 0px;
+  margin: 0 0 22px;
 }
 
 .hero-title {
@@ -1100,6 +1100,9 @@ ul { margin: 0; padding: 0; list-style: none; }
 ========================================================= */
 @media (max-width: 1100px) {
   .header-actions .link-hide-mobile { display: none; }
+  /* Referencia mobile: el header queda solo con el logo y la hamburguesa, sin el botón
+     "Inscribirme" — ya está disponible como CTA grande dentro del propio hero. */
+  .header-actions .btn-primary { display: none; }
   .nav-toggle {
     display: flex;
     flex-direction: column;
@@ -1214,13 +1217,8 @@ ul { margin: 0; padding: 0; list-style: none; }
   /* El solapamiento hacia la sección de abajo se achica en mobile: con -80px tapaba
      el título "Un evento único..." de la siguiente sección. */
   .countdown { width: 100%; margin: 0 0 -24px; }
-  .hero-media {
-    position: static;
-    order: -1;
-    width: min(100%, 380px);
-    aspect-ratio: 670 / 794;
-    margin: 0 auto;
-  }
+  /* Referencia mobile: sin la foto — va directo de los chips al logo grande. */
+  .hero-media { display: none; }
   .hero-infobar { grid-template-columns: 1fr 1fr; gap: 22px 0; }
   .infobar-item { border-right: none; padding: 0 14px; }
   .infobar-item:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.09); }
@@ -1244,8 +1242,13 @@ ul { margin: 0; padding: 0; list-style: none; }
             mask-image: linear-gradient(90deg, #000 0%, #000 90%, transparent 100%);
   }
   .hero-logo { height: 42px; margin-top: 22px; }
-  .hero-actions { flex-direction: column; align-items: stretch; }
+  /* Referencia mobile: los botones siguen lado a lado, no apilados. */
   .hero-actions .btn { justify-content: center; }
+  /* Referencia mobile: fecha y ubicación lado a lado (grilla fija), no en flex-wrap libre
+     — así el texto largo de la dirección envuelve en su propia columna angosta en vez
+     de necesitar todo el ancho disponible para cada ítem. */
+  .hero-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .meta-item { align-items: flex-start; }
   .pit-card { flex-direction: column; align-items: flex-start; padding: 0; text-align: left; gap: 28px; }
   .pit-stat-number { font-size: 2.6rem; }
   .pit-media { align-self: center; }
