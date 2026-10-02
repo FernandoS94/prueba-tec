@@ -149,13 +149,25 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 .btn-primary { background: var(--brand-gradient); color: #fff; border: none; }
 .btn-primary:hover { filter: brightness(1.1); }
+/* Referencia: "Inscribirme" sólido blanco en el header, igual que en el hero. */
+.header-btn-white { background: #fff; color: var(--brand-blue); }
+.header-btn-white:hover { filter: none; background: #F2EFE9; }
 
+/* "Inscribirme" del hero: azul sólido (referencia), no el degradé de marca. */
+.btn-solid { background: var(--brand-blue); color: #fff; border: none; }
+.btn-solid:hover { background: var(--brand-blue-hover); }
+
+/* Blanco sólido en vez del degradé de marca: sobre el fondo Freedom Gradient del hero,
+   es el contraste más fuerte posible para el CTA principal (el degradé se "camuflaba"
+   un poco con el fondo, que usa esos mismos tonos). El botón chico del header sigue con
+   el degradé a propósito — es jerarquía, no inconsistencia: el CTA grande del hero pega
+   más fuerte que el mini-CTA siempre visible del header. */
 .btn-gradient {
-  background: var(--brand-gradient);
-  color: #fff;
+  background: #fff;
+  color: var(--brand-blue);
   border: none;
 }
-.btn-gradient:hover { filter: brightness(1.08); }
+.btn-gradient:hover { background: #F2EFE9; }
 .btn-gradient svg { flex-shrink: 0; }
 
 .btn-outline { border-color: var(--oscuro); color: var(--oscuro); background: transparent; }
@@ -171,7 +183,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 .btn-text { padding: 11px 4px; text-decoration: underline; text-underline-offset: 3px; }
 
-.btn-lg { padding: 18px 38px; font-size: 1.15rem; }
+.btn-lg { padding: 20px 34px; font-size: 1.22rem; }
 
 .btn-disabled {
   background: #EDEBE3;
@@ -281,7 +293,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   border-radius: 50%;
   transition: background .15s ease, color .15s ease;
 }
-.header-social .icon { width: 30px; height: 30px; }
+.header-social .icon { width: 20px; height: 20px; }
 .header-social:hover { color: #fff; background: rgba(255,255,255,.12); }
 
 .header-actions .btn-primary span { display: inline-block; transition: transform .15s ease; }
@@ -338,23 +350,22 @@ ul { margin: 0; padding: 0; list-style: none; }
   margin-bottom: 26px;
 }
 
-.hero-kicker {
+/* El wordmark real (mismo archivo que el logo del header) en vez del texto "TecWeek ED"
+   con contorno — referencia pedida explícitamente por el cliente. */
+.hero-logo-big {
   display: block;
-  font-family: var(--font-display);
-  font-size: clamp(2.8rem, 6.6vw, 5rem);
-  line-height: 0.92;
-  letter-spacing: .01em;
-  text-transform: uppercase;
-  color: #fff;
-  -webkit-text-stroke: 2px var(--turquesa);
-  text-stroke: 2px var(--naranja);
-  margin: 0 0 4px;
+  height: auto;
+  width: clamp(260px, 36vw, 480px);
+  margin: 0 0 0px;
 }
 
 .hero-title {
-  font-size: clamp(2.1rem, 4.2vw, 3.1rem);
+  font-family: var(--font-body);
+  font-weight: 400;
+  text-transform: none;
+  font-size: clamp(1.4rem, 2.4vw, 1.8rem);
   color: #fff;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   letter-spacing: -0.01em;
 }
 
@@ -362,17 +373,33 @@ ul { margin: 0; padding: 0; list-style: none; }
   font-size: 1.08rem;
   color: white;
   max-width: 480px;
-  margin-bottom: 30px;
+  margin-bottom: 18px;
 }
+.hero-subtitle-sub { margin-bottom: 30px; }
 
 .hero-actions {
   display: flex;
-  align-items: center;
-  gap: 50px;
+  align-items: stretch;
+  gap: 16px;
   flex-wrap: wrap;
   margin-bottom: 28px;
 }
-.hero-actions .btn-outline { border-color: rgba(255,255,255,.4); color: #fff; }
+/* Los dos botones, lado a lado, se reparten el 100% del ancho de la columna de texto
+   (antes quedaba un hueco grande a la derecha, herencia de cuando estaba "Preguntas
+   frecuentes" acá también). */
+.hero-actions .btn {
+    flex: 1 1 0;
+  max-width: 270px;   /* ajustá este número al ancho que quieras */
+  justify-content: center;
+}
+/* box-shadow en vez de border: así el contorno se puede engrosar sin sumarle tamaño
+   al botón (un border sí lo haría, y quedaría más grande que "Inscribirme" al lado,
+   que no tiene borde). */
+.hero-actions .btn-outline {
+  border: none;
+  box-shadow: inset 0 0 0 2.5px rgba(255,255,255,.55);
+  color: #fff;
+}
 .hero-actions .btn-outline:hover { background: #fff; color: var(--oscuro); }
 .hero-actions .btn-text { color: rgba(255,255,255,.75); }
 
@@ -382,6 +409,9 @@ ul { margin: 0; padding: 0; list-style: none; }
   flex-wrap: wrap;
   font-size: 1rem;
 }
+/* Siempre en su propia línea: en el rango ~820-900px alcanzaba a entrar en el mismo
+   renglón que fecha/ubicación, y quedaba inconsistente respecto al resto de los anchos. */
+.meta-item-break { flex-basis: 100%; }
 .meta-item {
   display: inline-flex;
   align-items: center;
@@ -414,11 +444,12 @@ ul { margin: 0; padding: 0; list-style: none; }
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: #fff;
+  background: #fff;
+  box-shadow: 0 6px 16px -4px rgba(0,0,0,.35);
 }
-.meta-icon-violeta { background: var(--violeta); box-shadow: 0 6px 16px -4px rgba(92,0,85,.7); }
-.meta-icon-turquesa { background: var(--turquesa); box-shadow: 0 6px 16px -4px rgba(98,207,246,.7); }
-.meta-icon-rosa { background: var(--rosa); box-shadow: 0 6px 16px -4px rgba(238,156,202,.7); }
+.meta-icon-violeta { color: var(--violeta); }
+.meta-icon-turquesa { color: var(--turquesa); }
+.meta-icon-rosa { color: var(--rosa); }
 
 /* Barra de info inferior del hero */
 .hero-infobar {
@@ -459,26 +490,29 @@ ul { margin: 0; padding: 0; list-style: none; }
 .infobar-item h4 { font-size: 0.98rem; color: #fff; margin-bottom: 4px; }
 .infobar-item p { font-size: 0.85rem; color: rgba(255,255,255,.55); line-height: 1.35; }
 
-/* Media: foto + lista superpuesta */
+/* Media: caja de referencia ~670×794px (la pidió el cliente para la próxima foto final).
+   La imagen de la nena es placeholder: usamos object-fit:contain para que no se recorte
+   mal mientras tanto; cuando llegue la foto final pre-recortada a esta proporción, esto
+   puede pasar a "cover" sin tocar nada más. */
 .hero-media {
   position: absolute;
   right: max(24px, calc((100vw - 1160px) / 2 + 24px));
-  bottom: 5px;
-  display: flex;
-  justify-content: flex-end;
-  /* La imagen no debe bloquear clics en los botones que quedan debajo de su zona transparente */
+  bottom: -1px;
+  /* El ALTO manda (vw como unidad de escala, no vw de ancho de la caja): así nunca se pasa
+     de la altura real del hero, que la definen el logo + los textos, no el ancho de pantalla.
+     El ancho sale solo de acá vía aspect-ratio, manteniendo la proporción 670×794. */
+  height: clamp(360px, 34vw, 560px);
+  aspect-ratio: 670 / 794;
   pointer-events: none;
-  /* La sombra va en el contenedor (no en la <img>) para que siga la silueta */
   filter: drop-shadow(0 18px 36px rgba(20, 0, 50, .35));
 }
 
 .hero-photo {
   display: block;
-  width: auto;
-  /* Imagen vertical (retrato): se limita por ALTO, no por ancho — si se estirara al
-     100% del ancho de la columna quedaría gigante, porque es mucho más alta que ancha. */
-  height: clamp(400px, 68vh, 720px);
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
 }
 
 /* Scrim fijo: garantiza contraste del texto sin importar qué foto haya debajo */
@@ -529,7 +563,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   text-shadow: 0 2px 10px rgba(0,0,0,.35);
 }
 
-/* Cuenta regresiva — franja con degradé */
+/* Cuenta regresiva — referencia: fondo sólido oscuro en vez del degradé de marca */
 .countdown {
   position: relative;
   z-index: 2;
@@ -537,19 +571,21 @@ ul { margin: 0; padding: 0; list-style: none; }
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  width: 66%;
+  width: min(560px, 90%);
   padding: 30px 20px 26px;
   border-radius: 18px;
-  background: linear-gradient(90deg, #1F4F84 0%, #2763A5 30%, #5C0055 100%);
-  margin: 0 0 5px;
+  background: var(--oscuro);
+  /* Centrado (en vez de pegado a la izquierda) y sobresaliendo del borde inferior del
+     hero hacia la sección blanca de abajo, como en la referencia. */
+  margin: 0 auto -80px;
 }
 
 .countdown-kicker {
   margin: 0;
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: .18em;
-  text-transform: uppercase;
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
   color: #fff;
 }
 
@@ -626,7 +662,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   pointer-events: none;
 }
 
-.hero-bar { display: flex; height: 6px; }
+.hero-bar { display: flex; }
 .hero-bar span { flex: 1; }
 .bar-verde { background: var(--verde); }
 .bar-violeta { background: var(--violeta); }
@@ -1079,11 +1115,13 @@ ul { margin: 0; padding: 0; list-style: none; }
 
   .header-inner { position: relative; }
 
-  /* Dropdown con Agenda / Mapa / Premios PIT, anclado debajo del header */
+  /* Dropdown anclado debajo del header. Formato adoptado de tecweek.com.ar: el link
+     principal (Agenda) como botón píldora con el degradé de marca, los secundarios como
+     texto simple, y las redes sociales como fila de íconos al final. */
   .main-nav.mobile-nav.is-open {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
     position: absolute;
     top: calc(100% + 1px);
     left: 0;
@@ -1092,19 +1130,57 @@ ul { margin: 0; padding: 0; list-style: none; }
     border: 1px solid rgba(255,255,255,.08);
     border-top: none;
     border-radius: 0 0 14px 14px;
-    padding: 6px 24px 16px;
+    padding: 16px 20px 18px;
     box-shadow: 0 18px 34px -14px rgba(0,0,0,.5);
   }
-  .main-nav.mobile-nav.is-open a {
-    padding: 13px 2px;
-    font-size: 0.98rem;
+
+  .main-nav.mobile-nav.is-open .mobile-nav-btn {
+    text-align: center;
+    padding: 14px 20px;
+    margin-bottom: 10px;
+    border-radius: 999px;
+    background: var(--brand-gradient);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .main-nav.mobile-nav.is-open .mobile-nav-btn:hover,
+  .main-nav.mobile-nav.is-open .mobile-nav-btn:focus-visible { color: #fff; filter: brightness(1.08); }
+
+  .main-nav.mobile-nav.is-open .mobile-nav-link {
+    padding: 11px 2px;
+    font-size: 0.95rem;
     font-weight: 600;
     color: #D1D5DB;
     border-bottom: 1px solid rgba(255,255,255,.07);
   }
-  .main-nav.mobile-nav.is-open a:last-child { border-bottom: none; }
-  .main-nav.mobile-nav.is-open a:hover,
-  .main-nav.mobile-nav.is-open a:focus-visible { color: #fff; }
+  .main-nav.mobile-nav.is-open .mobile-nav-link:last-of-type { border-bottom: none; }
+  .main-nav.mobile-nav.is-open .mobile-nav-link:hover,
+  .main-nav.mobile-nav.is-open .mobile-nav-link:focus-visible { color: #fff; }
+
+  .main-nav.mobile-nav.is-open .mobile-nav-social {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,.08);
+  }
+  .main-nav.mobile-nav.is-open .mobile-nav-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: #D1D5DB;
+    transition: background .15s ease, color .15s ease;
+  }
+  .main-nav.mobile-nav.is-open .mobile-nav-social a:hover,
+  .main-nav.mobile-nav.is-open .mobile-nav-social a:focus-visible {
+    color: #fff;
+    background: rgba(255,255,255,.12);
+  }
+  .main-nav.mobile-nav.is-open .mobile-nav-social .icon { width: 20px; height: 20px; }
 
   .site-header { position: sticky; }
 }
@@ -1135,16 +1211,16 @@ ul { margin: 0; padding: 0; list-style: none; }
   .info-grid { grid-template-columns: 1fr; gap: 32px; }
   .hero-inner { grid-template-columns: 1fr; }
   .hero-copy { max-width: none; }
-  .countdown { width: 100%; }
+  /* El solapamiento hacia la sección de abajo se achica en mobile: con -80px tapaba
+     el título "Un evento único..." de la siguiente sección. */
+  .countdown { width: 100%; margin: 0 0 -24px; }
   .hero-media {
     position: static;
     order: -1;
-    display: flex;
-    justify-content: center;
+    width: min(100%, 380px);
+    aspect-ratio: 670 / 794;
     margin: 0 auto;
-    max-width: 100%;
   }
-  .hero-photo { height: clamp(280px, 46vh, 420px); }
   .hero-infobar { grid-template-columns: 1fr 1fr; gap: 22px 0; }
   .infobar-item { border-right: none; padding: 0 14px; }
   .infobar-item:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.09); }
@@ -1160,6 +1236,13 @@ ul { margin: 0; padding: 0; list-style: none; }
 @media (max-width: 600px) {
   body { background-attachment: scroll; }
   .hero { padding-top: 50px; }
+  /* Acá la tira de píldoras ya no entra completa (min-width:480px) y hay que deslizarla.
+     El desvanecido en el borde derecho es la única pista visual de que sigue, si no, el
+     corte parece contenido roto. */
+  .ejes-image-wrap {
+    -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 90%, transparent 100%);
+            mask-image: linear-gradient(90deg, #000 0%, #000 90%, transparent 100%);
+  }
   .hero-logo { height: 42px; margin-top: 22px; }
   .hero-actions { flex-direction: column; align-items: stretch; }
   .hero-actions .btn { justify-content: center; }
@@ -1202,8 +1285,12 @@ ul { margin: 0; padding: 0; list-style: none; }
 /* Ajustes finos para celulares chicos (320–420px) */
 @media (max-width: 420px) {
   .container { padding: 0 16px; }
-  .header-inner { gap: 14px; padding-top: 14px; padding-bottom: 14px; }
-  .logo-img { height: 24px; }
+  .header-inner { gap: 10px; padding-top: 14px; padding-bottom: 14px; }
+  .logo-img { height: 20px; }
+  /* A 320px el botón "Inscribirme" del header no entraba (se pasaba 32px del borde,
+     oculto por el overflow-x:hidden del body pero cortado visualmente igual). */
+  .header-actions { gap: 10px; }
+  .header-actions .btn-primary { padding: 9px 14px; font-size: 0.82rem; }
   .hero-title { font-size: clamp(1.7rem, 7vw, 2.1rem); }
   .hero-logo { height: 34px; margin-top: 18px; }
   .hero-subtitle { font-size: 0.98rem; }
@@ -1211,10 +1298,13 @@ ul { margin: 0; padding: 0; list-style: none; }
   .section { padding: 56px 0; }
   .chip-nav { gap: 8px; }
   .nav-chip { padding: 6px 12px; font-size: 0.78rem; }
-  .countdown { gap: 8px; padding: 16px 10px; }
-  .countdown-grid { gap: 8px; }
-  .countdown-item { min-width: 52px; }
-  .countdown-number { font-size: 1.25rem; }
+  .countdown { gap: 8px; padding: 16px 8px; }
+  /* gap más chico + label con menos letter-spacing: a 320px, "SEGUNDOS" + los separadores
+     no entraban en una sola línea con el gap/padding original (se cortaban 18px) */
+  .countdown-grid { gap: 5px; }
+  .countdown-item { min-width: 48px; }
+  .countdown-number { font-size: 1.2rem; }
+  .countdown-label { font-size: 0.62rem; letter-spacing: .02em; }
   .countdown-kicker { font-size: 0.72rem; }
   .countdown-note { font-size: 0.78rem; }
   .card { padding: 24px 20px 26px; }
