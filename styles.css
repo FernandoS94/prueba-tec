@@ -356,7 +356,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   display: block;
   height: auto;
   width: clamp(260px, 36vw, 480px);
-  margin: 0 0 22px;
+  margin: 0 0 0px;
 }
 
 .hero-title {
@@ -688,7 +688,11 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* ---------- 4 ejes ---------- */
-.ejes { background: var(--claro); }
+.ejes {
+  background: var(--claro);
+  /* El contador del hero se mete 80px en esta sección (margin-bottom: -80px): 80 + 60 de aire. */
+  padding-top: 140px;
+}
 
 .ejes-content {
   display: flex;
@@ -890,6 +894,25 @@ ul { margin: 0; padding: 0; list-style: none; }
   padding: 7px 14px;
 }
 
+/* ---------- Tarjetas de oradores ----------
+   Van a continuación de la tarjeta de su espacio (Charlas TEC, Foro TEC) y heredan su color
+   con la misma clase exp-verde / exp-violeta. Usan la misma estructura que el resto de los
+   slides, así el carrusel las trata igual. */
+/* Retratos verticales: se anclan arriba para que el recorte nunca corte la cabeza. */
+.exp-slide-speaker .exp-slide-photo { object-position: 50% 0; }
+/* Fotos de primer plano (la cara ocupa casi todo el cuadro): se centran un poco más abajo. */
+.exp-slide-speaker .exp-slide-photo.exp-photo-closeup { object-position: 50% 30%; }
+.exp-slide-speaker .exp-slide-title {
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  margin-bottom: 8px;
+}
+.exp-slide-role {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--exp-accent-text);
+  margin: 0 0 12px;
+}
+
 /* Controles */
 .exp-arrow {
   position: absolute;
@@ -915,7 +938,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .exp-arrow-prev { left: 12px; }
 .exp-arrow-next { right: 12px; }
 
-.exp-dots { display: flex; justify-content: center; gap: 12px; margin-top: -14px; }
+.exp-dots { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: -14px; }
 .exp-dot {
   width: 12px;
   height: 12px;
@@ -928,6 +951,8 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 .exp-dot:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 3px; }
 .exp-dot.is-active { transform: scale(1.5); background: var(--exp-accent); }
+/* Puntos de oradores: más chicos, para que los de cada espacio sigan leyéndose como "capítulos". */
+.exp-dot-sub { width: 8px; height: 8px; }
 
 .exp-progress {
   width: 240px;
@@ -1216,6 +1241,8 @@ ul { margin: 0; padding: 0; list-style: none; }
   /* El solapamiento hacia la sección de abajo se achica en mobile: con -80px tapaba
      el título "Un evento único..." de la siguiente sección. */
   .countdown { width: 100%; margin: 0 0 -24px; }
+  /* Acá el contador sobresale solo 24px: se vuelve al padding normal de .section. */
+  .ejes { padding-top: 84px; }
   /* Referencia mobile: sin la foto — va directo de los chips al logo grande. */
   .hero-media { display: none; }
   .hero-infobar { grid-template-columns: 1fr 1fr; gap: 22px 0; }
@@ -1271,6 +1298,8 @@ ul { margin: 0; padding: 0; list-style: none; }
     min-height: 0;
   }
   .exp-slide-visual { flex: 0 0 190px; }
+  /* Los retratos necesitan más alto que las fotos apaisadas para que entre la cara completa. */
+  .exp-slide-speaker .exp-slide-visual { flex-basis: 260px; }
   .exp-slide-copy {
     text-align: center;
     align-items: center;
