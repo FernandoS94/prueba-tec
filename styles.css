@@ -490,10 +490,9 @@ ul { margin: 0; padding: 0; list-style: none; }
 .infobar-item h4 { font-size: 0.98rem; color: #fff; margin-bottom: 4px; }
 .infobar-item p { font-size: 0.85rem; color: rgba(255,255,255,.55); line-height: 1.35; }
 
-/* Media: caja de referencia ~670×794px (la pidió el cliente para la próxima foto final).
-   La imagen de la nena es placeholder: usamos object-fit:contain para que no se recorte
-   mal mientras tanto; cuando llegue la foto final pre-recortada a esta proporción, esto
-   puede pasar a "cover" sin tocar nada más. */
+/* Media: caja de referencia ~670×794px. La foto de la docente ya viene pre-recortada
+   casi exactamente a esta proporción (0.844 vs. 0.8438 del target), así que usamos
+   "cover" para que llene el cuadro por completo. */
 .hero-media {
   position: absolute;
   right: max(24px, calc((100vw - 1160px) / 2 + 24px));
@@ -511,8 +510,8 @@ ul { margin: 0; padding: 0; list-style: none; }
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: bottom center;
+  object-fit: cover;
+  object-position: top center;
 }
 
 /* Scrim fijo: garantiza contraste del texto sin importar qué foto haya debajo */
